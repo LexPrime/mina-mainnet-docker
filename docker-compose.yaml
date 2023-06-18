@@ -1,0 +1,58 @@
+version: "3.9"
+
+x-logging:
+  &default-logging
+  options:
+    max-file: '3'
+    compress: 'false'
+    max-size: '100m'
+  driver: local
+
+networks:
+  mina-net:
+    driver: bridge
+
+services:
+  mina:
+    image: minaprotocol/mina-daemon:${MINA_VERSION}
+    container_name: mina
+    environment:
+      MINA_PUBLIC_KEY: ${MINA_PUBLIC_KEY}
+      MINA_PRIVKEY_PASS: ${MINA_PASS}
+      UPTIME_PRIVKEY_PASS: ${MINA_PASS}
+      CB_RECIEVER: ${CB_RECIEVER}
+    command: |
+       daemon
+       --uptime-submitter-key /keys/my-wallet
+       --uptime-url https://uptime-backend.minaprotocol.com/v1/submit
+       --block-producer-key /keys/my-wallet
+       --coinbase-receiver ${CB_RECIEVER}
+       --open-limited-graphql-port
+       --limited-graphql-port 3095
+       --minimum-block-reward 720
+       --insecure-rest-server
+       --file-log-level Debug
+       --log-level Info
+       --peer-list-url https://storage.googleapis.com/mina-seed-lists/mainnet_seeds.txt
+    volumes:
+      - ./keys:/keys:ro
+      - ./.mina-config:/root/.mina-config
+    expose:
+      - 3095
+    ports:
+      - "8302:8302"
+      - "6060:6060"
+    networks:
+      - mina-net
+    restart: unless-stopped
+    logging: *default-logging
+
+  mina-sidecar:
+    container_name: mina-sidecar
+    image: minaprotocol/mina-bp-stats-sidecar:latest
+    volumes:
+      - ./mina-sidecar.json:/etc/mina-sidecar.json
+    networks:
+      - mina-net
+    restart: unless-stopped
+    logging: *default-logging
