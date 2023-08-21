@@ -1,11 +1,12 @@
 version: "3.9"
 
 x-logging:
-  &default-logging
-  options:
-    max-file: '3'
-    compress: 'false'
-    max-size: '100m'
+  &logging
+  logging:
+    options:
+      max-file: '3'
+      compress: 'false'
+      max-size: '100m'
   driver: local
 
 networks:
@@ -45,7 +46,7 @@ services:
     networks:
       - mina-net
     restart: unless-stopped
-    logging: *default-logging
+    <<: *logging
 
   mina-sidecar:
     container_name: mina-sidecar
@@ -55,4 +56,4 @@ services:
     networks:
       - mina-net
     restart: unless-stopped
-    logging: *default-logging
+    <<: *logging
