@@ -24,7 +24,7 @@ services:
       CB_RECIEVER: ${CB_RECIEVER}
     command: |
        daemon
-       --uptime-submitter-key /keys/my-wallet
+       --uptime-submitter-key /keys/${WALLET_NAME}
        --uptime-url https://uptime-backend.minaprotocol.com/v1/submit
        --block-producer-key /keys/my-wallet
        --coinbase-receiver ${CB_RECIEVER}
