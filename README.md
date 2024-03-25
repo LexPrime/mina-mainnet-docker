@@ -2,18 +2,19 @@ Mainnet mina docker setup
 
 Quick start Mina block producer with docker-compose
 
+1. Get this repo
 ```
 git clone https://github.com/LexPrime/mina-mainnet-docker
 cd mina-mainnet-docker
 ```
 
-Use mina_keygen.sh for generating new private key
+2. Use keygen.sh for generating new private key
 
 ```
-./mina_keygen.sh
+./keygen.sh
 ```
 
-Copy sample.env to .env and add your variables
+3. Copy sample.env to .env and add your variables
 
 ```
 cp sample.env .env
