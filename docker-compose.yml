@@ -39,10 +39,10 @@ services:
     restart: unless-stopped
     <<: *logging
 
-  mina-sidecar:
-    container_name: mina-sidecar
-    image: minaprotocol/mina-bp-stats-sidecar:latest
-    volumes:
-      - ./mina-sidecar.json:/etc/mina-sidecar.json
-    restart: unless-stopped
-    <<: *logging
+  #mina-sidecar:
+  #  container_name: mina-sidecar
+  #  image: minaprotocol/mina-bp-stats-sidecar:latest
+  #  volumes:
+  #    - ./mina-sidecar.json:/etc/mina-sidecar.json
+  #  restart: unless-stopped
+  #  <<: *logging
